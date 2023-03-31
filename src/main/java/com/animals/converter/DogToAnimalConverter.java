@@ -1,14 +1,13 @@
 package com.animals.converter;
 
-import com.animals.model.CategoryType;
+import com.animals.model.Category;
 import com.animals.model.Dog;
 import com.animals.model.Status;
 import com.animals.model.entity.Animal;
-import com.animals.model.entity.Category;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Component
 public class DogToAnimalConverter implements Converter<Dog, Animal> {
@@ -21,8 +20,8 @@ public class DogToAnimalConverter implements Converter<Dog, Animal> {
                 .name(dog.getName())
                 .description(dog.getBredFor())
                 .image(dog.getImage())
-                .category(new Category(2L, CategoryType.DOG))
-                .creationDate(LocalDateTime.now())
+                .category(Category.DOG)
+                .creationDate(LocalDate.now())
                 .status(Status.AVAILABLE)
                 .build();
     }

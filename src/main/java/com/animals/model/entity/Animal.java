@@ -1,44 +1,45 @@
 package com.animals.model.entity;
 
+import com.animals.model.Category;
 import com.animals.model.Status;
-import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 
-/**
- * http://localhost:8080/h2-console
- */
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_animal")
+@Table(name = "TB_ANIMAL")
 public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
+
+    @Column(name = "NAME")
     private String name;
 
     @Lob
     private String description;
 
     @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "image_id" )
+    @JoinColumn(name = "IMAGE_ID" )
     private Image image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @Column(name = "CATEGORY", length = 12)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
-    @Column(name = "creation_date")
-    private LocalDateTime creationDate;
+    @Column(name = "CREATION_DATE", columnDefinition = "DATE")
+    private LocalDate creationDate;
 
-    @Column(length = 40)
+    @Column(name = "STATUS", length = 40)
     @Enumerated(EnumType.STRING)
     private Status status;
 

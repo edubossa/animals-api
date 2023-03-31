@@ -1,19 +1,23 @@
 package com.animals.dto;
 
-import com.animals.model.CategoryType;
+import com.animals.model.Category;
 import com.animals.model.Status;
-import lombok.Data;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AnimalDTO {
 
     private String name;
     private String description;
-    private String image; //TODO Object
-    private CategoryType category;
-    private LocalDateTime creationDate;
+    private String image;
+    private Category category;
+    private LocalDate creationDate;
     private Status status;
 
 }

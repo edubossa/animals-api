@@ -1,6 +1,6 @@
 package com.animals.model;
 
-public enum CategoryType {
+public enum Category {
     CAT,
     DOG
 }

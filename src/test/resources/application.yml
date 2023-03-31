@@ -1,11 +1,12 @@
+
 spring:
   application:
-    name: gps-client-api
+    name: animals-api
   h2:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:mem:clientesdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:animalsdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -17,3 +18,19 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 60000
+            readTimeout: 60000
+            loggerLevel: basic
+
+client:
+  cat:
+    baseUrl: https://api.thecatapi.com/v1
+    apiKey: live_Bxdwieb8UDcUM5o8rCZYdWbMtikeLoGP8UuGJW4i0Lads9rgibYb6D2z4XUaBaVy
+  dog:
+    baseUrl: https://api.thedogapi.com/v1
+    apiKey: live_OGOWRqSOa7JbxI7dNJtOwkTLARsyTrH2kejXYguF4Cl706Qle4X3N2pcti3oIxBJ

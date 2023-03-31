@@ -1,114 +1,118 @@
-API (micro serviço) Clientes
+Animals API
 =============
 
-Aplicação
+API
 --
 
-A aplicação contém os seguintes serviços disponiveis:
+This API contains the following available services: 
 
-- Recuperar todos os clientes (permitir filtro/ordenação por nome, utilizar paginação)
+- Index animals (from all partners) in the database
  ```
- curl --location --request GET 'http://localhost:8080/clientes?nome=cliente&page=0&size=5&sort=nome,asc'
+ curl --location --request POST 'https://developer-318618.rj.r.appspot.com/animals/indexes' \
+--header 'accept: */*'
  ```
-- Recuperar um cliente por CPF (Retornar HttpStatusCode – 204 para não encontrado)
+- Filter all animals by term, category, status and creation date
  ```
- curl --location --request GET 'http://localhost:8080/clientes/63915501077'
+ curl --location 'https://developer-318618.rj.r.appspot.com/animals?term=Guardian&category=CAT&status=ADOPTED&creationDate=2023-03-30&page=0&size=10&sort=name%2Casc' \
+--header 'accept: */*'
  ```
-- Criar um novo Cliente validando os campos nome, data de nascimento, CPF e sexo (Utilizar BeanValidation). Não permitir CPF duplicado e não utilizar máscara na gravação dos dados do CPF.
+- change animal status
  ```
- curl --location --request POST 'http://localhost:8080/clientes' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "nome" : "Eduardo W. Silva",
-    "dataNascimento" : "12/06/1983",
-    "cpf" : "313.691.678-65",
-    "sexo" : "M"
-}'
- ```
-- Atualizar um Cliente (validar se o mesmo existe)
- ```
- curl --location --request PUT 'http://localhost:8080/clientes/11' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "nome" : "Eduardo Atualizado",
-    "dataNascimento" : "12/06/1983",
-    "cpf" : "313.691.678-65",
-    "sexo" : "M"
-}'
- ```
-- Remover um Cliente (validar se o mesmo existe)
- ```
- curl --location --request DELETE 'http://localhost:8080/clientes/11'
+ curl --location --request PATCH 'https://developer-318618.rj.r.appspot.com/animals/1/status/ADOPTED' \
+--header 'accept: */*'
  ```
 
-
-Tecnologias Utilidas
+Stacks
 --
 
-A aplicação utiliza as seguintes tecnologias:
-- Java 17
-- SpringBoot2
+- Java 11
+- SpringBoot 3
 - JPA/Hibernate
 - Swagger
 - Junit/Mockito
 - Lombok
 - H2
-- Bean Validation
+- Spring Cloud Openfeign
 
 H2 database
 --
 
-Quando a aplicação e inicializada e feito uma carga inicial com alguns clientes, contidos no arquivo data.sql
+You can access the database in memory [here](http://localhost:8080/h2-console)
 
-E possivel acessar o banco H2 através do link [aqui](http://localhost:8080/h2-console)
+![initial_Acess](db_01.png)
 
-Segue as imagens abaixo de configuração e acesso:
-
-![acesso inicial](gps-client-api-h2-01.png)
-
-![dados_iniciais](gps-client-api-h2-02.png)
+![data](db_02.png)
 
 
-Swagger e documentações
---
-E possivel acessar a documentação Swagger através do link [aqui](http://localhost:8080/swagger-ui.html#/)
-
-![dados_iniciais](gps-client-api-swagger.png)
-
-Diretrizes
+How build on Google Cloud - App Engine Provider
 --
 
-Segue o passo a passo de como baixar, compilar e rodar a aplicação.
-
-
-Passo 01
+STEP 01
 -----
 
-Clone o seguinte repositorio git com o seguinte comando abaixo:
+On the terminal configure gcloud CLI :
 
 ```
-git clone https://github.com/edubossa/gps-cliente-api.git
+gcloud init
+
+gcloud config set project your-project-id
 ```
 
-Passo 02
+STEP 02
 -----
 
-Rode o seguinte comando maven para compilar a aplicação:
+Run the following maven command to deploy the application:
+
+```
+mvn -DskipTests package appengine:deploy
+```
+
+STEP 03
+-----
+
+Run the following command to access the application:
+
+```
+gcloud app browse
+```
+
+![data](gcloud_01.png)
+![data](gcloud_02.png)
+
+
+How to run localhost
+--
+
+STEP 01
+-----
+
+Clone the repository bellow:
+
+```
+git clone https://github.com/edubossa/animals-api.git
+```
+
+STEP 02
+-----
+
+Run the following maven command to compile the application:
 
 ```
 mvn clean install
 ```
 
-Passo 03
+STEP 03
 -----
 
-Rode o seguinte comando para inicializar a aplicação: 
+Run the following command to launch the application: 
 
 ```
-java -jar target/gps-cliente-api-0.0.1-SNAPSHOT.jar 
+java -jar target/animals-api-0.0.1-SNAPSHOT.jar 
 ```
 
-Passo 04
------
 
-Acesse o Swagger da aplicação no seguinte link [aqui](http://localhost:8080/swagger-ui.html)
+Swagger
+--
+Available [here](https://developer-318618.rj.r.appspot.com/swagger-ui.html#/)
+
+![swagger](swagger.png)
